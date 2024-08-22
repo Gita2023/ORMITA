@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Report Generator</title>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <style>
+        /* Reset and basic styles */
+        
+        body,
+        h1,
+        h2,
+        p,
+        form,
+        input,
+        button {
+            margin: 0;
+            padding: 0;
+            font-family: 'Raleway', sans-serif;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #ff7e5f, #feb47b);
+            color: #333;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .form-container {
+            background: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            max-width: 600px;
+            margin: auto;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        p.intro-text {
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+        
+        .form-group label {
+            font-size: 14px;
+            display: block;
+            margin-bottom: 8px;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background: #f9f9f9;
+        }
+        
+        .form-group input:focus {
+            border-color: #ff7e5f;
+            background: #fff;
+        }
+        
+        .submit-btn {
+            background: #ff7e5f;
+            color: #fff;
+            border: none;
+            padding: 12px;
+            width: 100%;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        
+        .submit-btn:hover {
+            background: #feb47b;
+        }
+        
+        #results {
+            margin-top: 40px;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .report-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .report-table th,
+        .report-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        
+        .report-table th {
+            background-color: #f2f2f2;
+        }
+        
+        .report-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .recommendation-section {
+            margin-top: 20px;
+            text-align: left;
+        }
+        
+        .recommendation-section h3 {
+            margin-bottom: 15px;
+            font-size: 18px;
+            color: #333;
+        }
+        
+        .recommendation-section p {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+        
+        canvas {
+            max-width: 100%;
+            margin-top: 20px;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <div class="form-container">
+        <h1>Financial Evaluation of Hospitals</h1>
+        <p class="intro-text">Please fill in the following details based on the financial performance of your hospital.</p>
+        <form id="financial-form">
+            <div class="form-group">
+                <label for="revenue">Total Revenue (currency):</label>
+                <input type="number" id="revenue" name="revenue" placeholder="Enter total revenue" required>
+                <small>Total income generated from all sources, including patient services, grants, and donations.</small>
+            </div>
+
+            <div class="form-group">
+                <label for="expenses">Operating Costs (currency):</label>
+                <input type="number" id="expenses" name="expenses" placeholder="Enter operating costs" required>
+                <small>Total expenses incurred in day-to-day operations, excluding financing costs.</small>
+            </div>
+
+            <div class="form-group">
+                <label for="assets">Current Assets (currency):</label>
+                <input type="number" id="assets" name="assets" placeholder="Enter current assets" required>
+                <small>Short-term assets available to meet the organization's obligations.</small>
+            </div>
+
+            <div class="form-group">
+                <label for="liabilities">Current Liabilities (currency):</label>
+                <input type="number" id="liabilities" name="liabilities" placeholder="Enter current liabilities" required>
+                <small>Short-term obligations the organization needs to meet.</small>
+            </div>
+
+            <button type="submit" class="submit-btn">Generate Report</button>
+        </form>
+
+        <div id="results"></div>
+    </div>
+
+    <script>
+        document.getElementById('financial-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const revenue = parseFloat(document.getElementById('revenue').value);
+            const expenses = parseFloat(document.getElementById('expenses').value);
+            const assets = parseFloat(document.getElementById('assets').value);
+            const liabilities = parseFloat(document.getElementById('liabilities').value);
+
+            const profitability = revenue - expenses;
+            const currentRatio = (assets / liabilities).toFixed(2);
+
+            generateReport({
+                revenue,
+                expenses,
+                assets,
+                liabilities,
+                profitability,
+                currentRatio
+            });
+        });
+
+        function generateReport(data) {
+            const resultsContainer = document.getElementById('results');
+            resultsContainer.innerHTML = '';
+
+            // Report Section: Table with Profitability, Expenses, and Current Ratio
+            const reportTitle = document.createElement('h2');
+            reportTitle.textContent = 'Financial Performance Report';
+            resultsContainer.appendChild(reportTitle);
+
+            const summaryTable = `
+                <table class="report-table">
+                    <thead>
+                        <tr>
+                            <th>Indicator</th>
+                            <th>Value (Currency)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Profitability</td>
+                            <td>${data.profitability.toFixed(2)}</td>
+                        </tr>
+                        <tr>
+                            <td>Operating Costs</td>
+                            <td>${data.expenses.toFixed(2)}</td>
+                        </tr>
+                        <tr>
+                            <td>Current Ratio</td>
+                            <td>${data.currentRatio}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            `;
+            resultsContainer.innerHTML = summaryTable;
+
+            // Recommendations Section
+            const recommendations = document.createElement('div');
+            recommendations.className = 'recommendation-section';
+            recommendations.innerHTML = '<h3>Recommendations</h3>';
+            if (data.profitability > 0) {
+                recommendations.innerHTML += '<p>The hospital is profitable. Consider reinvesting profits into key areas such as patient care, infrastructure, or staff training.</p>';
+            } else {
+                recommendations.innerHTML += '<p>The hospital is operating at a loss. Review expenses and explore cost-saving strategies or new revenue opportunities.</p>';
+            }
+
+            recommendations.innerHTML += `<p>The Current Ratio is ${data.currentRatio}. A ratio above 1 indicates good short-term financial health, while a ratio below 1 suggests potential liquidity issues.</p>`;
+            resultsContainer.appendChild(recommendations);
+
+            // Visual Section: Chart for Financial Metrics
+            const canvas = document.createElement('canvas');
+            canvas.id = 'financial-chart';
+            resultsContainer.appendChild(canvas);
+
+            const ctx = canvas.getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Revenue', 'Expenses', 'Assets', 'Liabilities'],
+                    datasets: [{
+                        label: 'Financial Metrics (Currency)',
+                        data: [data.revenue, data.expenses, data.assets, data.liabilities],
+                        backgroundColor: ['#ff7e5f', '#feb47b', '#ff7e5f', '#feb47b']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>
