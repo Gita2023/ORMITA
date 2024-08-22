@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ORMITA - Comprehensive Business Evaluation Toolkit</title>
+    <link rel="stylesheet" href="led-1.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Features Section */
+        
+        #features {
+            background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+            color: #fff;
+            padding: 60px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        #features h2 {
+            text-align: center;
+            margin-bottom: 50px;
+            font-size: 2.5rem;
+            color: #ffd700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        #features .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        
+        #features .feature {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+        
+        #features .feature:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        #features .feature-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            color: #ffd700;
+        }
+        
+        #features h3 {
+            font-size: 1.75rem;
+            margin-bottom: 15px;
+            color: #ffd700;
+        }
+        
+        #features p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #ffffff;
+        }
+        /* Testimonials Section */
+        
+        #testimonials {
+            background: linear-gradient(45deg, #141E30, #243B55);
+            color: #fff;
+            padding: 60px 20px;
+            text-align: center;
+            position: relative;
+        }
+        
+        #testimonials h2 {
+            margin-bottom: 40px;
+            font-size: 2.5rem;
+            color: #ffd700;
+        }
+        
+        .testimonial-carousel {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .testimonial {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 500px;
+            text-align: left;
+            opacity: 0;
+            transform: scale(0.9);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        
+        .testimonial.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        .testimonial p {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+        
+        .testimonial cite {
+            font-size: 1rem;
+            color: #ffd700;
+        }
+        
+        #prevBtn,
+        #nextBtn {
+            background: #ffd700;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            color: #141E30;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        #prevBtn:hover,
+        #nextBtn:hover {
+            background: #d4af37;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <h1>ORMITA</h1>
+            <nav>
+                <ul>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="/signup" class="cta-btn" id="headerGetStartedBtn">Get Started</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section id="cover-image">
+        <img src="https://i.imgur.com/7LjGkTd.jpg" alt="Cover Image">
+    </section>
+
+    <section id="hero">
+        <div class="container">
+            <h1>Unlock Comprehensive Insights with ORMITA</h1>
+            <p class="hero-subtitle">A versatile tool for evaluating financial, operational, and overall business performance.</p>
+            <a href="/signup" class="cta-btn" id="getStartedBtn">Get Started</a>
+        </div>
+    </section>
+
+    <section id="features">
+        <div class="container">
+            <h2>Key Features</h2>
+            <div class="features-grid">
+                <div class="feature">
+                    <div class="feature-icon"><i class="fas fa-industry"></i></div>
+                    <h3>Industry-Specific Evaluation</h3>
+                    <p>Gain valuable insights tailored to your industry. Whether you manage a hotel, retail store, or manufacturing company, our tool provides relevant metrics and calculations.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon"><i class="fas fa-database"></i></div>
+                    <h3>Streamlined Data Entry</h3>
+                    <p>Focus on your data, not complex forms. Enter essential financial information specific to your business, and our system guides you through the process.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon"><i class="fas fa-calculator"></i></div>
+                    <h3>Automated Calculations & Reporting</h3>
+                    <p>Save time and eliminate manual calculations. Our tool automatically calculates key financial ratios based on your data, presenting them in a clear and concise report.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon"><i class="fas fa-chart-line"></i></div>
+                    <h3>Data-Driven Decisions</h3>
+                    <p>Make informed business decisions with confidence. Our comprehensive financial evaluation empowers you to understand your company's performance and identify areas for improvement.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon"><i class="fas fa-user-friends"></i></div>
+                    <h3>User-Friendly Interface</h3>
+                    <p>Navigate with ease. Our intuitive interface makes data entry and report generation a breeze, even for non-financial professionals.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon"><i class="fas fa-sync-alt"></i></div>
+                    <h3>Real-Time Updates</h3>
+                    <p>Stay ahead with real-time data updates. Our system provides instant feedback and up-to-date information to keep your business on track.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <section id="contact">
+        <div class="container">
+            <h2>Contact Us</h2>
+            <p>Interested in learning more about our toolkit? Reach out to us!</p>
+            <a href="mailto:contact@ormita.com" class="cta-btn">Contact Us</a>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 ORMITA. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+
+</html>
